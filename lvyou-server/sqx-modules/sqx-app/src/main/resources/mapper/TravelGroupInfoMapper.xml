@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.group.groupInfo.db.mapper.TravelGroupInfoMapper">
+    <update id="addViews">
+        UPDATE travel_group_info
+        SET views = views + #{num}
+        WHERE id = #{groupInfoId}
+    </update>
+
+    <update id="addPeople">
+        UPDATE travel_group_info
+        SET people_count = people_count + #{num}
+        WHERE id = #{groupInfoId}
+    </update>
+
+    <select id="pageInfo" resultType="com.sqx.app.lygl.group.groupInfo.domain.vo.GroupInfoVo">
+        SELECT
+            gi.*,
+            gt.`name` as typeName,
+            u.user_name as userName,
+            u.avatar
+        FROM
+            `travel_group_info` gi
+        LEFT JOIN `travel_group_type` gt ON gi.type_id = gt.id
+        LEFT JOIN `tb_user` u ON gi.user_id = u.user_id
+        <where>
+            <if test="param.userId != null">
+                and gi.user_id = #{param.userId}
+            </if>
+            <if test="param.userName != null and param.userName != ''">
+                and u.user_name like concat('%', #{param.userName} ,'%')
+            </if>
+            <if test="param.typeId != null">
+                and gi.type_id = #{param.typeId}
+            </if>
+            <if test="param.typeName != null and param.typeName != ''">
+                and gt.`name` like concat('%', #{param.typeName} ,'%')
+            </if>
+            <if test="param.name != null and param.name != ''">
+                and gi.name like concat('%', #{param.name} ,'%')
+            </if>
+            <if test="param.applyCondition != null">
+                and gi.apply_condition = #{param.applyCondition}
+            </if>
+            <if test="param.province != null and param.province != ''">
+                and gi.province = #{param.province}
+            </if>
+            <if test="param.city != null and param.city != ''">
+                and gi.city = #{param.city}
+            </if>
+            <if test="param.region != null and param.region != ''">
+                and gi.region = #{param.region}
+            </if>
+            <if test="param.auditStatus != null">
+                and gi.audit_status = #{param.auditStatus}
+            </if>
+        </where>
+        order by gi.create_time desc
+    </select>
+    <select id="getInfo" resultType="com.sqx.app.lygl.group.groupInfo.domain.vo.GroupInfoVo">
+        SELECT
+            tgi.*,
+            tgt.`name` as typeName,
+            u.user_name,
+            u.phone,
+            u.avatar
+        FROM
+            travel_group_info tgi
+        LEFT JOIN travel_group_type tgt ON tgi.type_id = tgt.id
+        LEFT JOIN tb_user u ON tgi.user_id = u.user_id
+        where tgi.id = #{id}
+    </select>
+    <select id="owner" resultType="com.sqx.app.lygl.group.groupInfo.domain.vo.GroupInfoVo">
+        SELECT
+            gi.*,
+            gt.`name` as typeName,
+            u.user_name as userName
+        FROM
+            `travel_group_info` gi
+        LEFT JOIN `travel_group_type` gt ON gi.type_id = gt.id
+        LEFT JOIN `tb_user` u ON gi.user_id = u.user_id
+        where gi.user_id = #{param.userId}
+        <if test="param.status != null">
+            and gi.status = #{param.status}
+        </if>
+        <if test="param.auditStatus != null">
+            and gi.audit_status = #{param.auditStatus}
+        </if>
+        order by gi.create_time desc
+    </select>
+
+    <select id="joinList" resultType="com.sqx.app.lygl.group.groupInfo.domain.vo.GroupInfoVo">
+        SELECT
+            gi.*,
+            gt.`name` as typeName,
+            u.user_name as userName
+        FROM
+            travel_group_user AS gu
+        LEFT JOIN travel_group_info AS gi ON gu.group_info_id = gi.id
+        LEFT JOIN `travel_group_type` gt ON gi.type_id = gt.id
+        LEFT JOIN `tb_user` u ON gi.user_id = u.user_id
+        where gu.user_id = #{param.userId}
+        order by gu.create_time desc
+    </select>
+</mapper>

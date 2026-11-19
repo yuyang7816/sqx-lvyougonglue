@@ -1,0 +1,409 @@
+{
+	"easycom": {
+		"autoscan": true,
+		// 注意一定要放在custom里，否则无效，https://ask.dcloud.net.cn/question/131175
+		"custom": {
+			"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "pages/groupChat/index",
+			"style": {
+				"navigationBarTitleText": "",//攻略群
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#F2FFE5"
+			}
+		},
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/my/userInfo",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		},{
+			"path": "pages/my/invitationUser",
+			"style": {
+				"navigationBarTitleText": "邀请好友"
+			}
+		},
+		{
+			"path": "pages/msg/index",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": true
+				// #ifdef H5 
+				,
+				"navigationStyle": "custom"
+				// #endif 
+			}
+		},{
+			"path": "pages/msg/message",
+			"style": {
+				"navigationBarTitleText": "消息通知",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "pages/msg/gonggao",
+			"style": {
+				"navigationBarTitleText": "官方公告",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "pages/msg/chat",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "pages/msg/addmsg",
+			"style": {
+				"navigationBarTitleText": "添加语句"
+			}
+		},{
+			"path": "pages/msg/add",
+			"style": {
+				"navigationBarTitleText": "添加语句"
+			}
+		},{
+			"path": "pages/msg/chathistory",
+			"style": {
+				"navigationBarTitleText": "聊天记录",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/webView/webView",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/public/loginphone",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/public/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/public/forgetPwd",
+			"style": {
+				"navigationBarTitleText": "忘记密码",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [{
+		"root": "my",
+		"pages": [{
+			"path": "renzheng/index",
+			"style": {
+				"navigationBarTitleText": "实名认证"
+			}
+		},{
+			"path": "wallet/cashList",
+			"style": {
+				"navigationBarTitleText": "提现记录",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "wallet/moneydetail",
+			"style": {
+				"navigationBarTitleText": "钱包明细",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "wallet/zhifubao",
+			"style": {
+				"navigationBarTitleText": "提现账号"
+			}
+		},{
+			"path": "wallet/index",
+			"style": {
+				"navigationBarTitleText": "提现"
+			}
+		},{
+			"path": "team/mysylist",
+			"style": {
+				"navigationBarTitleText": "收益详情",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "team/earnings",
+			"style": {
+				"navigationBarTitleText": "我的收益",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "team/index",
+			"style": {
+				"navigationBarTitleText": "我的团队",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Concert/index",
+			"style": {
+				"navigationBarTitleText": "演唱会",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Concert/detail",
+			"style": {
+				"navigationBarTitleText": "演唱会详情",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "Route/index",
+			"style": {
+				"navigationBarTitleText": "精选路线",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Route/detail",
+			"style": {
+				"navigationBarTitleText": "路线详情",
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "Route/ScenicspotDtail",
+			"style": {
+				"navigationBarTitleText": "景点详情",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Leasing/index",
+			"style": {
+				"navigationBarTitleText": "玩乐租赁",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Leasing/Leasing",
+			"style": {
+				"navigationBarTitleText": "玩乐租赁",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "Leasing/LeasingDtail",
+			"style": {
+				"navigationBarTitleText": "租赁玩乐",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "search/index",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "setting/index",
+			"style": {
+				"navigationBarTitleText": "设置中心"
+			}
+		},{
+			"path": "setting/mimi",
+			"style": {
+				"navigationBarTitleText": "隐私政策"
+			}
+		},{
+			"path": "setting/xieyi",
+			"style": {
+				"navigationBarTitleText": "用户协议"
+			}
+		},{
+			"path": "setting/userSz",
+			"style": {
+				"navigationBarTitleText": "平台用户行为守则"
+			}
+		},{
+			"path": "setting/qunpayxieyi",
+			"style": {
+				"navigationBarTitleText": "解锁群协议"
+			}
+		},{
+			"path": "setting/zhuxiao",
+			"style": {
+				"navigationBarTitleText": "注销账号"
+			}
+		},{
+			"path": "setting/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},{
+			"path": "setting/feedbackIndex",
+			"style": {
+				"navigationBarTitleText": "帮助中心"
+			}
+		},{
+			"path": "setting/helpDetail",
+			"style": {
+				"navigationBarTitleText": "帮助中心"
+			}
+		},{
+			"path": "setting/customer",
+			"style": {
+				"navigationBarTitleText": "客服"
+			}
+		},{
+			"path": "setting/feedback",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		},
+		
+		{
+			"path": "gird/heimingdan",
+			"style": {
+				"navigationBarTitleText": "我的黑名单",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/like",
+			"style": {
+				"navigationBarTitleText": "我的喜欢",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/goreport",
+			"style": {
+				"navigationBarTitleText": "我的投诉",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/collection",
+			"style": {
+				"navigationBarTitleText": "我的收藏",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/qingshaonian",
+			"style": {
+				"navigationBarTitleText": "青少年模式"
+			}
+		},{
+			"path": "gird/fans",
+			"style": {
+				"navigationBarTitleText": "我的粉丝",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/guanzhu",
+			"style": {
+				"navigationBarTitleText": "我的关注",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "gird/zhuye",
+			"style": {
+				"navigationBarTitleText": "个人主页",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "dynamic/index",
+			"style": {
+				"navigationBarTitleText": "我的动态",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "dynamic/listDetails",
+			"style": {
+				"navigationBarTitleText": "动态详情",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "dynamic/releaseone",
+			"style": {
+				"navigationBarTitleText": "发布动态"
+			}
+		},{
+			"path": "order/complain",
+			"style": {
+				"navigationBarTitleText": "投诉"
+			}
+		},{
+			"path": "GroupChat/JoinGroupChat",
+			"style": {
+				"navigationBarTitleText": "加入群聊",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "GroupChat/myGroupChat",
+			"style": {
+				"navigationBarTitleText": "我的群聊",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "GroupChat/addGroupChat",
+			"style": {
+				"navigationBarTitleText": "创建群聊"
+			}
+		},{
+			"path": "GroupChat/groupChatDetail",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "旅游攻略",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
+	},
+	"tabBar": {
+		"color": "#333333",
+		"selectedColor": "#01C3C5",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "white",
+
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/tabbar/index.png",
+			"selectedIconPath": "static/tabbar/index_s.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/groupChat/index",
+			"iconPath": "static/tabbar/qun.png",
+			"selectedIconPath": "static/tabbar/qun_s.png",
+			"text": "攻略群"
+		},{
+			"pagePath": "pages/msg/index",
+			"iconPath": "static/tabbar/message.png",
+			"selectedIconPath": "static/tabbar/message_s.png",
+			"text": "消息"
+		}, {
+			"pagePath": "pages/my/index",
+			"iconPath": "static/tabbar/my.png",
+			"selectedIconPath": "static/tabbar/my_s.png",
+			"text": "我的"
+		}]
+	},
+	"uniIdRouter": {}
+}

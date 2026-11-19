@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.payDetails.mapper.PayDetailsMapper">
+
+    <select id="pageInfo" resultType="com.sqx.app.lygl.index.domain.vo.PayDetailsVo">
+        SELECT
+            p.*,
+            u.user_name,
+            u.phone,
+            u.avatar
+        FROM
+            pay_details p
+        LEFT JOIN tb_user u ON p.user_id = u.user_id
+        <where>
+            <if test="param.state != null">
+                and p.state = #{param.state}
+            </if>
+            <if test="param.startTime != null and param.endTime != null">
+                and p.create_time between #{param.startTime} and #{param.endTime}
+            </if>
+        </where>
+        ORDER BY p.create_time DESC
+    </select>
+</mapper>

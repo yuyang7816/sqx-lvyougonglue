@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.blackList.db.mapper.TravelBlackListMapper">
+    <select id="pageInfo" resultType="com.sqx.app.lygl.blackList.domain.vo.BlackListVo">
+        SELECT
+            bl.*,
+            u.user_name,
+            u.avatar,
+            bu.user_name as blackUserName,
+            bu.avatar as blackUserAvatar
+        FROM
+            travel_black_list bl
+        LEFT JOIN tb_user u ON bl.user_id = u.user_id
+        LEFT JOIN tb_user bu ON bl.black_user_id = bu.user_id
+        <where>
+            <if test="param.userId != null">
+                and u.user_id = #{param.userId}
+            </if>
+            <if test="param.blackUserId != null">
+                and bu.user_id = #{param.blackUserId}
+            </if>
+            <if test="param.userName != null and param.userName != ''">
+                and u.user_name like concat('%', #{param.userName} ,'%')
+            </if>
+            <if test="param.blackUserName != null and param.blackUserName != ''">
+                and bu.user_name like concat('%', #{param.blackUserName} ,'%')
+            </if>
+        </where>
+        order by bl.create_time desc
+    </select>
+
+    <select id="info" resultType="com.sqx.app.lygl.blackList.domain.vo.BlackListVo">
+        SELECT
+            bl.*,
+            u.user_name,
+            u.avatar,
+            bu.user_name as blackUserName,
+            bu.avatar as blackUserAvatar
+        FROM
+            travel_black_list bl
+        LEFT JOIN tb_user u ON bl.user_id = u.user_id
+        LEFT JOIN tb_user bu ON bl.black_user_id = bu.user_id
+        where bl.id = #{id}
+    </select>
+</mapper>

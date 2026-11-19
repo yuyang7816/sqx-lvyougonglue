@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.complaint.complaintInfo.db.mapper.TravelComplaintMapper">
+    <select id="pageInfo" resultType="com.sqx.app.lygl.complaint.complaintInfo.domain.vo.ComplaintVo">
+        SELECT
+            tc.*,
+            tu.user_name,
+            CASE
+                WHEN tc.target_type = 1 THEN u.avatar
+                WHEN tc.target_type = 2 THEN NULL
+                ELSE NULL
+                END AS avatar,
+
+            CASE
+                WHEN tc.target_type = 1 THEN u.user_name
+                WHEN tc.target_type = 2 THEN ts.`name`
+                ELSE NULL
+                END AS `name`
+        FROM
+            travel_complaint tc
+        LEFT JOIN tb_user u ON tc.target_id = u.user_id
+        LEFT JOIN tb_user tu ON tc.user_id = tu.user_id
+        LEFT JOIN travel_shop ts ON tc.target_id = ts.id
+        <where>
+            <if test="param.userId != null">
+                and tc.user_id = #{param.userId}
+            </if>
+            <if test="param.targetType != null">
+                and tc.target_type = #{param.targetType}
+            </if>
+            <if test="param.status != null">
+                and tc.status = #{param.status}
+            </if>
+            <if test="param.reason != null and param.reason != ''">
+                and tc.reason like concat('%', #{param.reason} ,'%')
+            </if>
+        </where>
+        ORDER BY tc.create_time DESC
+    </select>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.shop.shopInfo.db.mapper.TravelShopMapper">
+    <update id="addCollect">
+        UPDATE travel_shop
+        SET collect_num = collect_num + #{num}
+        WHERE id = #{dataId}
+    </update>
+
+    <update id="subCollect">
+        UPDATE travel_shop
+        SET collect_num = collect_num - #{num}
+        WHERE id = #{dataId}
+    </update>
+
+    <select id="pageInfo" resultType="com.sqx.app.lygl.shop.shopInfo.domain.vo.TravelShopVo">
+        SELECT
+            s.*,
+            st.`name` as shopTypeName
+        FROM
+            travel_shop s
+        LEFT JOIN travel_shop_type st ON s.type_id = st.id
+        <where>
+            <if test="param.typeId != null">
+                and s.type_id = #{param.typeId}
+            </if>
+            <if test="param.typeName != null and param.typeName != ''">
+                and st.name like concat('%', #{param.typeName} ,'%')
+            </if>
+            <if test="param.name != null and param.name != ''">
+                and s.name like concat('%', #{param.name} ,'%')
+            </if>
+            <if test="param.province != null and param.province != ''">
+                and s.province = #{param.province}
+            </if>
+            <if test="param.city != null and param.city != ''">
+                and s.city = #{param.city}
+            </if>
+            <if test="param.region != null and param.region != ''">
+                and s.region = #{param.region}
+            </if>
+            <if test="param.phone != null and param.phone != ''">
+                and s.phone = #{param.phone}
+            </if>
+            <if test="param.contactName != null and param.contactName != ''">
+                and s.contactName = #{param.contactName}
+            </if>
+        </where>
+        order by s.create_time desc
+    </select>
+
+    <select id="info" resultType="com.sqx.app.lygl.shop.shopInfo.domain.vo.TravelShopVo">
+        SELECT
+            s.*,
+            st.`name` as shopTypeName,
+            EXISTS (SELECT * FROM travel_collect WHERE data_id = s.id AND type = 4 and user_id = #{userId}) as isCollect
+        FROM
+            travel_shop s
+        LEFT JOIN travel_shop_type st ON s.type_id = st.id
+        where s.id = #{shopId}
+    </select>
+
+    <select id="searchShop" resultType="com.sqx.app.lygl.shop.shopInfo.domain.vo.TravelShopVo">
+        SELECT
+            s.*,
+            st.`name` as shopTypeName,
+            EXISTS (SELECT * FROM travel_collect WHERE data_id = s.id AND type = 4 and user_id = #{userId}) as isCollect
+        FROM
+            travel_shop s
+        LEFT JOIN travel_shop_type st ON s.type_id = st.id
+        where
+            s.name like concat('%', #{keyword} ,'%') or
+            s.intro like concat('%', #{keyword} ,'%') or
+            s.province like concat('%', #{keyword} ,'%') or
+            s.city like concat('%', #{keyword} ,'%') or
+            s.region like concat('%', #{keyword} ,'%') or
+            s.address like concat('%', #{keyword} ,'%') or
+            s.tags like concat('%', #{keyword} ,'%')
+        order by s.create_time desc
+    </select>
+</mapper>

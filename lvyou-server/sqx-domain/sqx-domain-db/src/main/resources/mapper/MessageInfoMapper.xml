@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.domain.db.mapper.MessageInfoMapper">
+
+    <insert id="sendUserSystemNotice">
+        INSERT INTO message_info (user_id, title, content, image, is_see, url ,type, data_id)
+        SELECT
+            user_id,
+            "系统公告",
+            #{content},
+            "",
+            2,
+            "",
+            1,
+            0
+            FROM tb_user
+        WHERE status = 1;
+    </insert>
+</mapper>

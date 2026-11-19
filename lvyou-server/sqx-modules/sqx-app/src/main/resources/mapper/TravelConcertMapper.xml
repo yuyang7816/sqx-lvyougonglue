@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.concert.db.mapper.TravelConcertMapper">
+
+    <select id="countByLocaltion" resultType="com.sqx.app.lygl.index.domain.vo.ConcertStatisticsVO">
+        SELECT
+            location,
+            count(*) as count
+        FROM
+            travel_concert
+        <where>
+            <if test="startTime != null and endTime != null">
+                and concert_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        GROUP BY location
+    </select>
+</mapper>

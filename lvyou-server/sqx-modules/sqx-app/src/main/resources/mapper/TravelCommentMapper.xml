@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.comment.db.mapper.TravelCommentMapper">
+    <select id="pageInfo" resultType="com.sqx.app.lygl.comment.domain.vo.CommentVo">
+        SELECT
+            tc.*,
+            u.user_name,
+            u.avatar
+        FROM
+            travel_comment tc
+        LEFT JOIN tb_user u ON tc.user_id = u.user_id
+        <where>
+            <if test="param.userId != null">
+                and tc.user_id = #{param.userId}
+            </if>
+            <if test="param.userName != null and param.userName != ''">
+                and u.user_name like concat('%', #{param.userName} ,'%')
+            </if>
+            <if test="param.dataId != null">
+                and tc.data_id = #{param.dataId}
+            </if>
+            <if test="param.type != null">
+                and tc.type = #{param.type}
+            </if>
+        </where>
+        order by tc.create_time desc
+    </select>
+
+    <select id="momentCommentPage" resultType="com.sqx.app.lygl.comment.domain.vo.MomentCommentPageVo">
+        SELECT
+            tc.*,
+            u.user_name,
+            u.phone,
+            u.sex,
+            u.avatar
+        FROM
+            travel_comment tc
+        LEFT JOIN tb_user u ON tc.user_id = u.user_id
+        WHERE
+            tc.type = 1
+        AND data_id = #{param.momentId}
+        ORDER BY
+            tc.create_time DESC
+    </select>
+</mapper>

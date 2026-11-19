@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.router.baseInfo.db.mapper.TravelBaseInfoMapper">
+
+    <select id="pageInfo" resultType="com.sqx.app.lygl.router.baseInfo.domain.vo.BaseInfoVo">
+        SELECT
+            bi.*,
+            u.user_name,
+            u.avatar,
+            u.phone,
+            (SELECT COUNT(*) FROM travel_collect WHERE type = 3 AND data_id = bi.id) as collectCount
+        FROM
+            travel_base_info bi
+        LEFT JOIN tb_user u ON bi.user_id = u.user_id
+        <where>
+            <if test="param.title != null and param.title != ''">
+                and bi.title like concat('%', #{param.title} ,'%')
+            </if>
+            <if test="param.userId != null">
+                and bi.userId = #{param.userId}
+            </if>
+            <if test="param.status != null">
+                and bi.status = #{param.status}
+            </if>
+        </where>
+        order by bi.create_time desc
+    </select>
+
+    <select id="info" resultType="com.sqx.app.lygl.router.baseInfo.domain.vo.BaseInfoVo">
+        SELECT
+            bi.*,
+            u.user_name,
+            u.avatar,
+            u.phone,
+            (SELECT COUNT(*) FROM travel_collect WHERE type = 3 AND data_id = bi.id) as collectCount,
+            EXISTS (SELECT * FROM travel_collect WHERE user_id = #{currUserId} AND type = 3 AND data_id = bi.id) as isCollect
+        FROM
+            travel_base_info bi
+        LEFT JOIN tb_user u ON bi.user_id = u.user_id
+        where bi.id = #{id}
+    </select>
+
+    <select id="searchRoute" resultType="com.sqx.app.lygl.router.baseInfo.domain.vo.BaseInfoVo">
+        SELECT
+            bi.*,
+            u.user_name,
+            u.avatar,
+            u.phone,
+            (SELECT COUNT(*) FROM travel_collect WHERE type = 3 AND data_id = bi.id) as collectCount,
+            EXISTS (SELECT * FROM travel_collect WHERE user_id = #{userId} AND type = 3 AND data_id = bi.id) as isCollect
+        FROM
+            travel_base_info bi
+        LEFT JOIN tb_user u ON bi.user_id = u.user_id
+        where bi.title like concat('%', #{keyword} ,'%')
+        order by bi.create_time desc
+    </select>
+
+    <select id="pageByCity" resultType="com.sqx.app.lygl.router.baseInfo.domain.vo.BaseInfoVo">
+        SELECT DISTINCT
+            tbi.*,
+            (SELECT COUNT(*) FROM travel_collect WHERE type = 3 AND data_id = tbi.id) AS collectCount
+        FROM
+            travel_base_info tbi
+        JOIN travel_route tr ON tbi.id = tr.base_info_id
+        JOIN travel_scenic_spot tss ON tr.scenic_spot_id = tss.id
+        WHERE
+            tss.location like concat('%', #{param.city} ,'%')
+    </select>
+</mapper>

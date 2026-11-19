@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.scenicSpot.info.db.mapper.TravelScenicSpotMapper">
+
+    <select id="searchScenicSpot" resultType="com.sqx.app.lygl.scenicSpot.info.domain.vo.ScenicSpotVo">
+        SELECT
+            tss.*,
+            EXISTS (SELECT * FROM travel_collect WHERE user_id = #{userId} AND type = 2 AND data_id = tss.id) as isCollect,
+            (SELECT count(*) FROM travel_collect WHERE type = 2 AND data_id = tss.id) as collectNum
+        FROM
+            travel_scenic_spot tss
+        where
+            tss.name like concat('%', #{keyword} ,'%') or
+            tss.location like concat('%', #{keyword} ,'%')
+        ORDER BY create_time DESC
+    </select>
+</mapper>

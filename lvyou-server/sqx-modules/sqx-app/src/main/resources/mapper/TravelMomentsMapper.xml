@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqx.app.lygl.moments.db.mapper.TravelMomentsMapper">
+
+    <select id="pageInfo" resultType="com.sqx.app.lygl.moments.domain.vo.MomentsVo">
+        SELECT
+            tm.*,
+            u.user_name,
+            u.avatar,
+            u.age,
+            u.sex,
+            tss.`name` as scenicSpotName,
+            tss.location,
+            s.name as shopName
+        FROM
+            travel_moments tm
+        LEFT JOIN tb_user u ON tm.user_id = u.user_id
+        left join travel_scenic_spot tss on tm.scenic_spot_id = tss.id
+        left join travel_shop s on tm.shop_id = s.id
+        <where>
+            <if test="param.userId != null">
+                and tm.user_id = #{param.userId}
+            </if>
+            <if test="param.title != null and param.title != ''">
+                and tm.title like concat('%', #{param.title} ,'%')
+            </if>
+            <if test="param.province != null and param.province != ''">
+                and tm.province = #{param.province}
+            </if>
+            <if test="param.city != null and param.city != ''">
+                and tm.city = #{param.city}
+            </if>
+            <if test="param.district != null and param.district != ''">
+                and tm.district = #{param.district}
+            </if>
+            <if test="param.scenicSpotId != null">
+                and tm.scenic_spot_id = #{param.scenicSpotId}
+            </if>
+            <if test="param.scenicSpotName != null and param.scenicSpotName != ''">
+                and tss.name like concat('%', #{param.scenicSpotName} ,'%')
+            </if>
+            <if test="param.auditStatus != null">
+                and tm.audit_status = #{param.auditStatus}
+            </if>
+            <if test="param.shopId != null">
+                and tm.shop_id = #{param.shopId}
+            </if>
+            <if test="param.userName != null and param.userName != ''">
+                and u.user_name like concat('%', #{param.userName} ,'%')
+            </if>
+        </where>
+        order by tm.create_time desc
+    </select>
+
+    <select id="info" resultType="com.sqx.app.lygl.moments.domain.vo.MomentsVo">
+        SELECT
+            tm.*,
+            u.user_name,
+            u.avatar,
+            u.age,
+            u.sex,
+            s.name as shopName
+        FROM
+            travel_moments tm
+        LEFT JOIN tb_user u ON tm.user_id = u.user_id
+        left join travel_shop s on tm.shop_id = s.id
+        where tm.id = #{id}
+    </select>
+    <select id="listByMomentsId" resultType="com.sqx.app.lygl.moments.domain.vo.MomentsVo">
+        SELECT
+            tm.*,
+            u.user_name,
+            u.avatar,
+            u.age,
+            u.sex,
+            EXISTS (SELECT * FROM travel_like WHERE user_id = #{userId} AND data_id = tm.id AND type = 1) AS isLike,
+            (SELECT count(*) FROM travel_like WHERE data_id = tm.id AND type = 1) as likeNum
+        FROM
+            travel_moments tm
+        LEFT JOIN tb_user u ON tm.user_id = u.user_id
+        where
+            tm.id in
+            <foreach collection="dataIdList" item="dataId" open="(" close=")" separator=",">
+                #{dataId}
+            </foreach>
+    </select>
+    <select id="searchMoments" resultType="com.sqx.app.lygl.moments.domain.vo.MomentsVo">
+        SELECT
+            tm.*,
+            u.avatar,
+            u.phone,
+            u.user_name,
+            EXISTS (SELECT * FROM travel_like WHERE user_id = #{userId} AND data_id = tm.id AND type = 1) AS isLike,
+            (SELECT count(*) FROM travel_like WHERE data_id = tm.id AND type = 1) as likeNum
+        FROM
+            travel_moments tm
+        LEFT JOIN tb_user u ON u.user_id = tm.user_id
+        where tm.title like concat('%', #{keyword} ,'%') or
+              tm.location like concat('%', #{keyword} ,'%') or
+              tm.province like concat('%', #{keyword} ,'%') or
+              tm.city like concat('%', #{keyword} ,'%') or
+              tm.district like concat('%', #{keyword} ,'%')
+        ORDER BY tm.create_time DESC
+    </select>
+</mapper>
